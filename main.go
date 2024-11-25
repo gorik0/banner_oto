@@ -6,11 +6,9 @@ import (
 )
 
 func main() {
+	lisDir := strings.Split("alias constants props recorder myerrors regex sanitizer", " ")
+	for _, v := range lisDir {
 
-	println("HeloSo")
-	lisDir := strings.Split("auth comment restaurants food user session", " ")
-	for _, r := range lisDir {
-		os.MkdirAll("proto/"+r, 0777)
-
+		os.MkdirAll("internal/utils/"+v, 0777)
 	}
 }
