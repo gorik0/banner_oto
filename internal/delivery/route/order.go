@@ -4,8 +4,9 @@ import (
 	restProto "banners_oto/gen/rest"
 	userProto "banners_oto/gen/user"
 	"banners_oto/internal/delivery/metrics"
-	"banners_oto/internal/delivery/order"
+	orderdelivery "banners_oto/internal/delivery/order"
 	"banners_oto/internal/repository/food"
+	"banners_oto/internal/repository/order"
 	orderUsec "banners_oto/internal/usecase/order"
 	"banners_oto/microservices"
 	"banners_oto/services"
@@ -15,7 +16,7 @@ import (
 )
 
 func AddOrderRouter(mux *mux.Router, cluster *services.Cluster, clients *microservices.Clients, logger *zap.Logger, metrics *metrics.Metrics) {
-	repoOrder := orderUsec.NewRepoLayer(cluster.PsqlClient, metrics)
+	repoOrder := order.NewRepoLayer(cluster.PsqlClient, metrics)
 	repoFood := food.NewRepo(cluster.PsqlClient, metrics)
 	//init user grpc client
 	grpcUserClient := userProto.NewUserManagerClient(clients.UserConn)
@@ -23,7 +24,7 @@ func AddOrderRouter(mux *mux.Router, cluster *services.Cluster, clients *microse
 	grpcRestClient := restProto.NewRestWorkerClient(clients.RestConn)
 
 	usecaseOrder := orderUsec.NewUsecaseLayer(repoOrder, repoFood, grpcUserClient, grpcRestClient, metrics)
-	handler := order.NewOrderHandler(usecaseOrder, logger)
+	handler := orderdelivery.NewOrderHandler(usecaseOrder, logger)
 
 	mux.HandleFunc("/api/v1/order", handler.GetBasket).Methods("GET")
 
