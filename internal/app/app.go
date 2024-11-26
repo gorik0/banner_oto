@@ -3,7 +3,7 @@ package app
 import (
 	"banners_oto/config"
 	"banners_oto/internal/delivery/metrics"
-	"banners_oto/internal/delivery/metrics/route"
+	"banners_oto/internal/delivery/route"
 	"banners_oto/internal/utils/functions"
 	"banners_oto/microservices"
 	"banners_oto/services"
@@ -15,7 +15,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/uber/jaeger-lib/metrics/prometheus"
 	"go.uber.org/zap"
 )
 
@@ -62,7 +61,7 @@ func Run(logger *zap.Logger) {
 
 	}(grpcClients)
 	r := mux.NewRouter()
-	handler := route.Setup(r, serviceCluster, grpcClients, reg, m, logger)
+	handler := route.Setup(r, serviceCluster, grpcClients, m, reg, logger)
 
 	serverCfg := cfg.Server
 	serverAddr := fmt.Sprintf(":%d", serverCfg.Port)

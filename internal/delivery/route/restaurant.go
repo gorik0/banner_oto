@@ -4,7 +4,10 @@ import (
 	protocomment "banners_oto/gen/comment"
 	protorest "banners_oto/gen/rest"
 	protouser "banners_oto/gen/user"
+	delivcomment "banners_oto/internal/delivery/comment"
 	"banners_oto/internal/delivery/metrics"
+	delivrest "banners_oto/internal/delivery/restaurant"
+	delivsearch "banners_oto/internal/delivery/search"
 	repofood "banners_oto/internal/repository/food"
 	reposearch "banners_oto/internal/repository/search"
 	uscomment "banners_oto/internal/usecase/comment"
@@ -36,9 +39,9 @@ func AddRestRouter(mux *mux.Router, cluster *services.Cluster, clients *microser
 	grpcComment := protocomment.NewCommentWorkerClient(clients.CommentConn)
 	usecaseComment := uscomment.NewUseCaseLayer(grpcComment, grpcUser, metrics)
 
-	deliveryRest := dRest.NewRestaurantHandler(usecaseRest, usecaseFood, usecaseUser, logger)
-	deliveryComment := dComment.NewDelivery(usecaseComment, logger)
-	deliverySearch := dSearch.NewDelivery(usecaseSearch, logger)
+	deliveryRest := delivrest.NewRestaurantHandler(usecaseRest, usecaseFood, usecaseUser, logger)
+	deliveryComment := delivcomment.NewDelivery(usecaseComment, logger)
+	deliverySearch := delivsearch.NewDelivery(usecaseSearch, logger)
 
 	mux.HandleFunc("/api/v1/search", deliverySearch.Search).Methods("GET").Name("restaurants-list")
 	mux.HandleFunc("/api/v1/restaurants", deliveryRest.RestaurantList).Methods("GET").Name("restaurants-list")
