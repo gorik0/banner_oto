@@ -1,10 +1,10 @@
 package minios3
 
 import (
+	cnst "banners_oto/internal/utils/constants"
 	"bytes"
 	"context"
 
-	cnst "2024_1_kayros/internal/utils/constants"
 	"github.com/minio/minio-go/v7"
 )
 
