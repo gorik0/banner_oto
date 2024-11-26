@@ -1,18 +1,17 @@
 package user
 
 import (
+	protouser "banners_oto/gen/user"
+	"banners_oto/internal/delivery/metrics"
+	"banners_oto/internal/entity"
+	cnst "banners_oto/internal/utils/constants"
+	"banners_oto/internal/utils/myerrors"
+	"banners_oto/internal/utils/myerrors/grpcerr"
+	"banners_oto/internal/utils/props"
 	"context"
 	"io"
 	"mime/multipart"
 	"time"
-
-	protouser "2024_1_kayros/gen/go/user"
-	"2024_1_kayros/internal/delivery/metrics"
-	"2024_1_kayros/internal/entity"
-	cnst "2024_1_kayros/internal/utils/constants"
-	"2024_1_kayros/internal/utils/myerrors"
-	"2024_1_kayros/internal/utils/myerrors/grpcerr"
-	"2024_1_kayros/internal/utils/props"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -35,7 +34,7 @@ type UsecaseLayer struct {
 func NewUsecaseLayer(userClientProps protouser.UserManagerClient, metrics *metrics.Metrics) Usecase {
 	return &UsecaseLayer{
 		userClient: userClientProps,
-		metrics: metrics,
+		metrics:    metrics,
 	}
 }
 
@@ -93,7 +92,7 @@ func (uc *UsecaseLayer) UpdateUnauthAddress(ctx context.Context, address string,
 	}
 	return nil
 }
- 
+
 // GetData - method calls repo method to receive user data.
 func (uc *UsecaseLayer) GetData(ctx context.Context, email string) (*entity.User, error) {
 	timeNow := time.Now()
@@ -110,7 +109,7 @@ func (uc *UsecaseLayer) GetData(ctx context.Context, email string) (*entity.User
 		}
 		return &entity.User{}, err
 	}
- 	return entity.ConvertProtoUserIntoEntityUser(u), nil
+	return entity.ConvertProtoUserIntoEntityUser(u), nil
 }
 
 // UpdateData - method used to update user info. It accepts non-password fields.

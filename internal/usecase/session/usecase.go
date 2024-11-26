@@ -1,12 +1,12 @@
 package session
 
 import (
-	"2024_1_kayros/gen/go/session"
-	"2024_1_kayros/internal/delivery/metrics"
-	"2024_1_kayros/internal/utils/alias"
-	cnst "2024_1_kayros/internal/utils/constants"
-	"2024_1_kayros/internal/utils/myerrors"
-	"2024_1_kayros/internal/utils/myerrors/grpcerr"
+	"banners_oto/gen/session"
+	"banners_oto/internal/delivery/metrics"
+	"banners_oto/internal/utils/alias"
+	cnst "banners_oto/internal/utils/constants"
+	"banners_oto/internal/utils/myerrors"
+	"banners_oto/internal/utils/myerrors/grpcerr"
 	"context"
 	"time"
 
@@ -22,13 +22,13 @@ type Usecase interface {
 }
 
 type UsecaseLayer struct {
-	client session.SessionManagerClient
+	client  session.SessionManagerClient
 	metrics *metrics.Metrics
 }
 
 func NewUsecaseLayer(clientProps session.SessionManagerClient, metrics *metrics.Metrics) Usecase {
 	return &UsecaseLayer{
-		client: clientProps,
+		client:  clientProps,
 		metrics: metrics,
 	}
 }

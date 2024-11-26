@@ -4,6 +4,7 @@ import (
 	restProto "banners_oto/gen/rest"
 	userProto "banners_oto/gen/user"
 	"banners_oto/internal/delivery/metrics"
+	"banners_oto/internal/delivery/order"
 	"banners_oto/internal/repository/food"
 	orderUsec "banners_oto/internal/usecase/order"
 	"banners_oto/microservices"
@@ -11,7 +12,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
-	"google.golang.org/genproto/googleapis/maps/fleetengine/delivery/v1"
 )
 
 func AddOrderRouter(mux *mux.Router, cluster *services.Cluster, clients *microservices.Clients, logger *zap.Logger, metrics *metrics.Metrics) {
@@ -23,7 +23,7 @@ func AddOrderRouter(mux *mux.Router, cluster *services.Cluster, clients *microse
 	grpcRestClient := restProto.NewRestWorkerClient(clients.RestConn)
 
 	usecaseOrder := orderUsec.NewUsecaseLayer(repoOrder, repoFood, grpcUserClient, grpcRestClient, metrics)
-	handler := delivery.NewOrderHandler(usecaseOrder, logger)
+	handler := order.NewOrderHandler(usecaseOrder, logger)
 
 	mux.HandleFunc("/api/v1/order", handler.GetBasket).Methods("GET")
 

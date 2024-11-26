@@ -1,15 +1,14 @@
 package rest
 
 import (
+	"banners_oto/gen/rest"
+	"banners_oto/internal/delivery/metrics"
+	"banners_oto/internal/entity"
+	"banners_oto/internal/utils/alias"
+	cnst "banners_oto/internal/utils/constants"
 	"context"
 	"strconv"
 	"time"
-
-	"2024_1_kayros/gen/go/rest"
-	"2024_1_kayros/internal/delivery/metrics"
-	"2024_1_kayros/internal/entity"
-	"2024_1_kayros/internal/utils/alias"
-	cnst "2024_1_kayros/internal/utils/constants"
 
 	"google.golang.org/grpc/status"
 )

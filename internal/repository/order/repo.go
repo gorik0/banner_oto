@@ -48,6 +48,12 @@ type RepoLayer struct {
 	metrics *metrics.Metrics
 }
 
+func NewRepoLayer(dbProps *sql.DB, metrics *metrics.Metrics) Repo {
+	return &RepoLayer{
+		db:      dbProps,
+		metrics: metrics,
+	}
+}
 func (repo *RepoLayer) Create(ctx context.Context, userId alias.UserId) (alias.OrderId, error) {
 	timeNow := time.Now().UTC().Format(cnst.Timestamptz)
 	timeNowMetric := time.Now()

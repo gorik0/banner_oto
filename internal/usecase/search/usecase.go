@@ -1,10 +1,9 @@
 package search
 
 import (
+	"banners_oto/internal/entity/dto"
+	"banners_oto/internal/repository/search"
 	"context"
-
-	"2024_1_kayros/internal/entity/dto"
-	"2024_1_kayros/internal/repository/search"
 )
 
 type Usecase interface {

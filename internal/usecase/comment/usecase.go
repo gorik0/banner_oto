@@ -1,17 +1,16 @@
 package comment
 
 import (
+	"banners_oto/gen/comment"
+	"banners_oto/gen/user"
+	"banners_oto/internal/delivery/metrics"
+	"banners_oto/internal/entity"
+	"banners_oto/internal/utils/alias"
+	cnst "banners_oto/internal/utils/constants"
+	"banners_oto/internal/utils/myerrors"
+	"banners_oto/internal/utils/myerrors/grpcerr"
 	"context"
 	"time"
-
-	"2024_1_kayros/gen/go/comment"
-	"2024_1_kayros/gen/go/user"
-	"2024_1_kayros/internal/delivery/metrics"
-	"2024_1_kayros/internal/entity"
-	"2024_1_kayros/internal/utils/alias"
-	cnst "2024_1_kayros/internal/utils/constants"
-	"2024_1_kayros/internal/utils/myerrors"
-	"2024_1_kayros/internal/utils/myerrors/grpcerr"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -26,14 +25,14 @@ type Usecase interface {
 type UsecaseLayer struct {
 	grpcCommentClient comment.CommentWorkerClient
 	grpcUserClient    user.UserManagerClient
-	metrics 		  *metrics.Metrics
+	metrics           *metrics.Metrics
 }
 
 func NewUseCaseLayer(commentClient comment.CommentWorkerClient, userClient user.UserManagerClient, m *metrics.Metrics) Usecase {
 	return &UsecaseLayer{
 		grpcCommentClient: commentClient,
 		grpcUserClient:    userClient,
-		metrics: m,
+		metrics:           m,
 	}
 }
 
@@ -83,7 +82,7 @@ func (uc *UsecaseLayer) CreateComment(ctx context.Context, com entity.Comment, e
 	return FromGrpcStructToComment(res), nil
 }
 
-/// !!!!!!!
+// / !!!!!!!
 func (uc *UsecaseLayer) GetCommentsByRest(ctx context.Context, restId alias.RestId) ([]*entity.Comment, error) {
 	timeNow := time.Now()
 	comments, err := uc.grpcCommentClient.GetCommentsByRest(ctx, &comment.RestId{Id: uint64(restId)})
@@ -102,7 +101,7 @@ func (uc *UsecaseLayer) GetCommentsByRest(ctx context.Context, restId alias.Rest
 	return FromGrpcStructToCommentArray(comments), nil
 }
 
-/// !!!!!!!!
+// / !!!!!!!!
 func (uc *UsecaseLayer) DeleteComment(ctx context.Context, id uint64) error {
 	timeNow := time.Now()
 	_, err := uc.grpcCommentClient.DeleteComment(ctx, &comment.CommentId{Id: id})

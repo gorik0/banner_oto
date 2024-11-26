@@ -1,14 +1,13 @@
 package promocode
 
 import (
+	"banners_oto/internal/entity"
+	"banners_oto/internal/utils/alias"
+	"banners_oto/internal/utils/myerrors"
 	"context"
 	"database/sql"
 	"errors"
 	"fmt"
-
-	"2024_1_kayros/internal/entity"
-	"2024_1_kayros/internal/utils/alias"
-	"2024_1_kayros/internal/utils/myerrors"
 )
 
 type Repo interface {

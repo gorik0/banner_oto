@@ -3,11 +3,10 @@ package food
 import (
 	"banners_oto/internal/entity"
 	"banners_oto/internal/utils/alias"
+	"errors"
 
 	foodRepo "banners_oto/internal/repository/food"
 	"context"
-
-	"k8s.io/kube-openapi/pkg/validation/errors"
 )
 
 type Usecase interface {

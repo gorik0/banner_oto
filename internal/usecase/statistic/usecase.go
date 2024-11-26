@@ -1,8 +1,8 @@
 package statistic
 
 import (
-	"2024_1_kayros/internal/entity"
-	"2024_1_kayros/internal/repository/statistic"
+	"banners_oto/internal/entity"
+	"banners_oto/internal/repository/statistic"
 	"context"
 )
 
