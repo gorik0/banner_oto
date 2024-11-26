@@ -1,8 +1,8 @@
 package entity
 
 import (
-	"2024_1_kayros/gen/go/food"
-	"2024_1_kayros/internal/utils/alias"
+	"banners_oto/gen/food"
+	"banners_oto/internal/utils/alias"
 )
 
 type Category struct {

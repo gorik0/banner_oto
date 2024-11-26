@@ -37,27 +37,27 @@ func Run(logger *zap.Logger) {
 	defer func(clients *microservices.Clients) {
 		err := clients.SessionConn.Close()
 		if err != nil {
-			(logger.Error(fmt.Sprintf("Error while closign connection ~SessionConn %v"), err))
+			(logger.Error(fmt.Sprintf("Error while closign connection ~SessionConn %v", err)))
 		}
 
-		err := clients.UserConn.Close()
+		err = clients.UserConn.Close()
 		if err != nil {
-			(logger.Error(fmt.Sprintf("Error while closign connection ~UserConn %v"), err))
+			(logger.Error(fmt.Sprintf("Error while closign connection ~UserConn %v", err)))
 		}
 
-		err := clients.CommentConn.Close()
+		err = clients.CommentConn.Close()
 		if err != nil {
-			(logger.Error(fmt.Sprintf("Error while closign connection ~CommentConn %v"), err))
+			(logger.Error(fmt.Sprintf("Error while closign connection ~CommentConn %v", err)))
 		}
 
-		err := clients.AuthConn.Close()
+		err = clients.AuthConn.Close()
 		if err != nil {
-			(logger.Error(fmt.Sprintf("Error while closign connection ~AuthConn %v"), err))
+			(logger.Error(fmt.Sprintf("Error while closign connection ~AuthConn %v", err)))
 		}
 
-		err := clients.RestConn.Close()
+		err = clients.RestConn.Close()
 		if err != nil {
-			(logger.Error(fmt.Sprintf("Error while closign connection ~RestConn %v"), err))
+			(logger.Error(fmt.Sprintf("Error while closign connection ~RestConn %v", err)))
 		}
 
 	}(grpcClients)
