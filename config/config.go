@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/ilyakaznacheev/cleanenv"
 	"go.uber.org/zap"
@@ -129,7 +130,7 @@ type (
 	Oauth struct {
 		AccessToken string `yaml:"access-token" env:"OAUTH_ACCESS_TOKEN"`
 	}
-)}
+)
 
 func Read(logger *zap.Logger) {
 	if err := cleanenv.ReadConfig("config/config.yml", &Config); err != nil {

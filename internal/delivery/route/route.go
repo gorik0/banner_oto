@@ -21,4 +21,14 @@ func Setup(mux *mux.Router, cluster *services.Cluster, clients *microservices.Cl
 
 	// services route
 
+	AddAuthRouter(mux, cluster, clients, logger, m)
+	AddUserRouter(mux, cluster, clients, logger, m)
+	AddRestRouter(mux, cluster, clients, logger, m)
+	AddOrderRouter(mux, cluster, clients, logger, m)
+	AddQuizRouter(mux, cluster, clients, logger, m)
+	AddPaymentRouter(mux, cluster, clients, logger, m)
+
+	handler := AddMiddleware(mux, cluster, clients, logger, m)
+	logger.Info("end of handlers definition")
+	return handler
 }
