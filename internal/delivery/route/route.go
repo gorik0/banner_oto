@@ -21,7 +21,7 @@ func Setup(mux *mux.Router, cluster *services.Cluster, clients *microservices.Cl
 
 	// services route
 
-	AddAuthRouter(mux, cluster, clients, logger, m)
+	AddAuthRoute(mux, cluster, clients, logger, m)
 	AddUserRouter(mux, cluster, clients, logger, m)
 	AddRestRouter(mux, cluster, clients, logger, m)
 	AddOrderRouter(mux, cluster, clients, logger, m)
