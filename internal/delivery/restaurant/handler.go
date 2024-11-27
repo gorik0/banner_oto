@@ -3,6 +3,9 @@ package restaurant
 import (
 	"banners_oto/internal/entity"
 	"banners_oto/internal/entity/dto"
+	foodUc "banners_oto/internal/usecase/food"
+	restUc "banners_oto/internal/usecase/restaurants"
+	userUc "banners_oto/internal/usecase/user"
 	"banners_oto/internal/utils/alias"
 	cnst "banners_oto/internal/utils/constants"
 	"banners_oto/internal/utils/functions"

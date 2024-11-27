@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"banners_oto/gen/food"
+	protofood "banners_oto/gen/food"
 	"banners_oto/internal/utils/alias"
 )
 
@@ -32,7 +32,7 @@ type FoodInOrder struct {
 	RestaurantId uint64
 }
 
-func CnvProtoFoodIntoEntityFood(food *food.Food) *Food {
+func CnvProtoFoodIntoEntityFood(food *protofood.Food) *Food {
 	return &Food{
 		Id:           food.GetId(),
 		Name:         food.GetName(),
@@ -45,8 +45,8 @@ func CnvProtoFoodIntoEntityFood(food *food.Food) *Food {
 	}
 }
 
-func CnvEntityFoodIntoProtoFood(f *Food) *food.Food {
-	return &food.Food{
+func CnvEntityFoodIntoProtoFood(f *Food) *protofood.Food {
+	return &protofood.Food{
 		Id:           f.Id,
 		Name:         f.Name,
 		Description:  f.Description,
@@ -58,11 +58,11 @@ func CnvEntityFoodIntoProtoFood(f *Food) *food.Food {
 	}
 }
 
-func CnvEntityCtgIntoProtoCtgs(ctgs []*Category) *food.RestCategories {
-	protoCtgs := []*food.Category{}
+func CnvEntityCtgIntoProtoCtgs(ctgs []*Category) *protofood.RestCategories {
+	protoCtgs := []*protofood.Category{}
 	for _, ctg := range ctgs {
-		protoCtg := food.Category{}
-		protoFood := []*food.Food{}
+		protoCtg := protofood.Category{}
+		protoFood := []*protofood.Food{}
 		for _, f := range ctg.Food {
 			protoFood = append(protoFood, CnvEntityFoodIntoProtoFood(f))
 		}
@@ -71,10 +71,10 @@ func CnvEntityCtgIntoProtoCtgs(ctgs []*Category) *food.RestCategories {
 		protoCtg.Name = ctg.Name
 		protoCtgs = append(protoCtgs, &protoCtg)
 	}
-	return &food.RestCategories{Category: protoCtgs}
+	return &protofood.RestCategories{Category: protoCtgs}
 }
 
-func CnvProtoCtgIntoEntityCtg(protoCtgs *food.RestCategories) []*Category {
+func CnvProtoCtgIntoEntityCtg(protoCtgs *protofood.RestCategories) []*Category {
 	ctgs := []*Category{}
 	for _, protoCtg := range protoCtgs.Category {
 		ctg := Category{}
