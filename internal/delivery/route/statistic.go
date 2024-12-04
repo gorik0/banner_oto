@@ -1,9 +1,14 @@
 package route
 
 import (
-	ucSession "2024_1_kayros/internal/usecase/session"
 	sessionproto "banners_oto/gen/session"
+	protouser "banners_oto/gen/user"
 	"banners_oto/internal/delivery/metrics"
+	"banners_oto/internal/delivery/statistic"
+	repostatistic "banners_oto/internal/repository/statistic"
+	ussession "banners_oto/internal/usecase/session"
+	usstatistic "banners_oto/internal/usecase/statistic"
+	ususer "banners_oto/internal/usecase/user"
 	"banners_oto/microservices"
 	"banners_oto/services"
 
@@ -12,17 +17,17 @@ import (
 )
 
 func AddQuizRouter(mux *mux.Router, cluster *services.Cluster, clients *microservices.Clients, logger *zap.Logger, metrics *metrics.Metrics) {
-	repoQuiz := rQuiz.NewRepoLayer(cluster.PsqlClient, metrics)
+	repoQuiz := repostatistic.NewRepoLayer(cluster.PsqlClient, metrics)
 	// init grpc client interface
 	grpcSessionClient := sessionproto.NewSessionManagerClient(clients.SessionConn)
-	usecaseSession := ucSession.NewUsecaseLayer(grpcSessionClient, metrics)
+	usecaseSession := ussession.NewUsecaseLayer(grpcSessionClient, metrics)
 	// init grpc user interface
-	grpcUserClient := userproto.NewUserManagerClient(clients.UserConn)
-	usecaseUser := uUser.NewUsecaseLayer(grpcUserClient, metrics)
+	grpcUserClient := protouser.NewUserManagerClient(clients.UserConn)
+	usecaseUser := ususer.NewUsecaseLayer(grpcUserClient, metrics)
 
-	usecaseQuiz := uQuiz.NewUsecaseLayer(repoQuiz)
+	usecaseQuiz := usstatistic.NewUsecaseLayer(repoQuiz)
 
-	deliveryQuiz := dQuiz.NewDeliveryLayer(usecaseQuiz, usecaseUser, usecaseSession, logger, metrics)
+	deliveryQuiz := statistic.NewDeliveryLayer(usecaseQuiz, usecaseUser, usecaseSession, logger, metrics)
 
 	mux.HandleFunc("/api/v1/quiz/stats", deliveryQuiz.GetStatistic).Methods("GET").Name("quiz-stats")
 	mux.HandleFunc("/api/v1/quiz/questions", deliveryQuiz.GetQuestions).Methods("GET").Name("get-questions")

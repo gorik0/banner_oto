@@ -5,11 +5,11 @@
 package mock_service
 
 import (
-	entity "2024_1_kayros/internal/entity"
+
 	context "context"
 	reflect "reflect"
 
-	gomock "github.com/golang/mock/gomock"
+
 )
 
 // MockUsecase is a mock of Usecase interface.

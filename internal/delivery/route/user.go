@@ -1,14 +1,14 @@
 package route
 
 import (
-	"2024_1_kayros/gen/go/session"
-	"2024_1_kayros/gen/go/user"
-	"2024_1_kayros/internal/delivery/metrics"
-	dUser "2024_1_kayros/internal/delivery/user"
-	ucSession "2024_1_kayros/internal/usecase/session"
-	ucUser "2024_1_kayros/internal/usecase/user"
-	"2024_1_kayros/microservices"
-	"2024_1_kayros/services"
+	protosession "banners_oto/gen/session"
+	protouser "banners_oto/gen/user"
+	"banners_oto/internal/delivery/metrics"
+	"banners_oto/internal/delivery/user"
+	ussession "banners_oto/internal/usecase/session"
+	ususer "banners_oto/internal/usecase/user"
+	"banners_oto/microservices"
+	"banners_oto/services"
 
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
@@ -16,13 +16,13 @@ import (
 
 func AddUserRouter(mux *mux.Router, cluster *services.Cluster, clients *microservices.Clients, logger *zap.Logger, metrics *metrics.Metrics) {
 	// init user grpc client
-	grpcUserClient := user.NewUserManagerClient(clients.UserConn)
-	usecaseUser := ucUser.NewUsecaseLayer(grpcUserClient, metrics)
+	grpcUserClient := protouser.NewUserManagerClient(clients.UserConn)
+	usecaseUser := ususer.NewUsecaseLayer(grpcUserClient, metrics)
 	// init session grpc client
-	grpcSessionClient := session.NewSessionManagerClient(clients.SessionConn)
-	usecaseSession := ucSession.NewUsecaseLayer(grpcSessionClient, metrics)
+	grpcSessionClient := protosession.NewSessionManagerClient(clients.SessionConn)
+	usecaseSession := ussession.NewUsecaseLayer(grpcSessionClient, metrics)
 
-	deliveryUser := dUser.NewDeliveryLayer(usecaseSession, usecaseUser, logger, metrics)
+	deliveryUser := user.NewDeliveryLayer(usecaseSession, usecaseUser, logger, metrics)
 
 	mux.HandleFunc("/api/v1/user", deliveryUser.UserData).Methods("GET").Name("user_data")
 	mux.HandleFunc("/api/v1/user", deliveryUser.UpdateInfo).Methods("PUT").Name("update_user")
